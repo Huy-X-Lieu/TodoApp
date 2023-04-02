@@ -2,6 +2,7 @@ package Models;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 public class Activity{
     private String name;
@@ -10,12 +11,16 @@ public class Activity{
     private LocalDateTime startTime;
     private int durationInMinutes;
 
+    private LocalDateTime endTime;
+    public Activity(){}
+
     public Activity(String name, String description, String detail, LocalDateTime startTime, int durationInMinutes) {
         this.name = name;
         this.description = description;
         this.detail = detail;
         this.startTime = startTime;
         this.durationInMinutes = durationInMinutes;
+        this.endTime = startTime.plusMinutes(durationInMinutes);
     }
 
     public String getName() {
@@ -58,19 +63,6 @@ public class Activity{
         this.durationInMinutes = durationInMinutes;
     }
 
-    public String getSummary(){
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy/MM" +
-                "/dd");
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-        return "Activity{" +
-                "name='" + name +"'"+
-                "description='" + description + '\'' +
-                "Date='" + dateFormat.format(startTime) + '\'' +
-                "From:'" + timeFormatter.format(startTime) + '\'' +
-                "Until:'" + timeFormatter.format(
-                        startTime.plusMinutes(durationInMinutes)) + '\'';
-    }
-
     @Override
     public String toString() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
@@ -78,7 +70,7 @@ public class Activity{
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", detail='" + detail + '\'' +
-                ", start time='" + dtf.format(startTime) + +'\'' +
+                ", start time='" + dtf.format(startTime) + '\'' +
                 ", end time=" + dtf.format(startTime.plusMinutes(durationInMinutes)) +
                 "'}";
     }
@@ -98,8 +90,15 @@ public class Activity{
         return getStartTime().equals(activity.getStartTime());
     }
 
-    @Override
     public int hashCode() {
-        return 0;
+        return java.util.Objects.hash(super.hashCode(), name, description, startTime, durationInMinutes);
+    }
+
+    public int compareByStartTime(Activity other){
+        if(this.startTime == other.getStartTime())
+            return 0;
+        if(this.startTime.isBefore(other.getStartTime()))
+            return -1;
+        return 1;
     }
 }
