@@ -17,4 +17,13 @@ public class ActivityHelper {
                 "Until:'" + timeFormatter.format(
                 activity.getStartTime().plusMinutes(activity.getDurationInMinutes())) + '\'';
     }
+
+    public static boolean doesActivityHappenBefore(Activity act1, Activity act2){
+        return act1.getStartTime().isBefore(act2.getStartTime());
+    }
+
+    public static boolean doesActivityHappenAfter(Activity act1, Activity act2){
+        return !doesActivityHappenBefore(act1, act2);
+    }
+
 }
