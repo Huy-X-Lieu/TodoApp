@@ -2,15 +2,31 @@ package Models;
 
 import Models.Helpers.ActivityHelper;
 import Models.TodoAppExceptions.ActivitiesTimeConflictException;
+import Models.TodoAppExceptions.UnexpectedActivityDateException;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class ActivityDay {
-    ArrayList<Activity> activities = new ArrayList<>();
+public class DailySchedule {
+    private final ArrayList<Activity> activities = new ArrayList<>();
+    private final LocalDate date ;
 
-    public ActivityDay(){}
+    public DailySchedule(){
+        this.date = LocalDate.now();
+    }
 
-    public void addActivity(Activity activity) throws ActivitiesTimeConflictException {
+    public DailySchedule(LocalDate date){
+        this.date = date;
+    }
+
+    public void addActivity(Activity activity) throws ActivitiesTimeConflictException,
+            UnexpectedActivityDateException {
+        // If activity's day is different from dailySchedule's day
+        // Then throw a day-conflict exception
+        if(!this.doesActivityHappenOnTheSameDay(activity)){
+            throw new UnexpectedActivityDateException();
+        }
+        
         // if the activity list is empty
         // add activity and return
         if (activities.size() == 0) {
@@ -79,5 +95,9 @@ public class ActivityDay {
         }
 
         return false;
+    }
+
+    public boolean doesActivityHappenOnTheSameDay(Activity activity){
+        return this.date.isEqual(activity.getStartTime().toLocalDate());
     }
 }

@@ -1,27 +1,26 @@
 import Models.Activity;
-import Models.ActivityDay;
+import Models.DailySchedule;
 import Models.Helpers.InputHelper;
-import Models.TodoAppExceptions.ActivitiesTimeConflictException;
+import Models.TodoAppExceptions.ActivityDateTimeException;
 
-import java.io.File;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         String filePath = "/Volumes/D/Java/Java/Projects/ToDoApp/src/activityInput";
         ArrayList<Activity> activities = InputHelper.getActivities(filePath);
-        ActivityDay activityDay = new ActivityDay();
+        DailySchedule dailySchedule = new DailySchedule();
         for (Activity activity : activities){
             try{
-                activityDay.addActivity(activity);
-            } catch (ActivitiesTimeConflictException e) {
+                dailySchedule.addActivity(activity);
+            } catch (ActivityDateTimeException e) {
                 System.out.println("Could not add activity: " + activity);
                 System.out.println("Error: " + e.getMessage());
             }
         }
 
-        activityDay.printToDoListOfTheDay();
+        System.out.println();
+        System.out.println("Schedule:");
+        dailySchedule.printToDoListOfTheDay();
     }
 }

@@ -1,17 +1,12 @@
 package Models.Helpers;
 
 import Models.Activity;
-import Models.ActivityDay;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Queue;
 import java.util.Scanner;
-import java.util.stream.Stream;
 
 public class InputHelper {
     public static ArrayList<Activity> getActivities (String filePath){
@@ -30,7 +25,7 @@ public class InputHelper {
         return activities;
     }
 
-    private static Activity createActivityFromStringInput(String activityString) {
+    public static Activity createActivityFromStringInput(String activityString) {
         String[] activityElements =
                 activityString
                         .replace("|||", "")
@@ -54,8 +49,7 @@ public class InputHelper {
         int day = Integer.parseInt(dateString.split("[/-]")[2]);
         int hour = Integer.parseInt(timeString.split("[/:-]")[0]);
         int minute = Integer.parseInt(timeString.split("[/:-]")[1]);
-        LocalDateTime date = LocalDateTime.of(year,month,day,hour,minute);
-        return date;
+        return LocalDateTime.of(year,month,day,hour,minute);
     }
 
     private static String getWholeInputString(Scanner scanner) {
