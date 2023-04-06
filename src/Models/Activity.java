@@ -63,6 +63,10 @@ public class Activity{
         this.durationInMinutes = durationInMinutes;
     }
 
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
     @Override
     public String toString() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");

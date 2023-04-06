@@ -26,4 +26,32 @@ public class ActivityHelper {
         return !doesActivityHappenBefore(act1, act2);
     }
 
+    public static boolean isThereAnyTimeConflict(Activity act1, Activity act2){
+        /*
+        *  If one activity's start time or end time is in the time range of
+        * the other one
+        * Then, there is a time conflict between two Activities
+        * Return true
+        *
+        * If no conflict found, return false
+        */
+        if(act1.getStartTime().isAfter(act2.getStartTime())
+                && act1.getStartTime().isBefore(act2.getEndTime())){
+            return true;
+        }
+        if(act1.getEndTime().isAfter(act2.getStartTime())
+                && act1.getEndTime().isBefore(act2.getEndTime())){
+            return true;
+        }
+        if(act2.getStartTime().isAfter(act1.getStartTime())
+                && act2.getStartTime().isBefore(act1.getEndTime())){
+            return true;
+        }
+        if(act2.getEndTime().isAfter(act1.getStartTime())
+                && act2.getEndTime().isBefore(act1.getEndTime())){
+            return true;
+        }
+        return false;
+    }
+
 }
